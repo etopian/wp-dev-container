@@ -39,6 +39,9 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
     print shell_exec($ssh_pass_cmd);
   }
 
+  system("/bin/chown -R demouser:nginx /DATA/htdocs");
+
+
 
 }
 
