@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv /bin/bash
+
+echo "ssh_user::"$SSH_USER >> /variables
+echo "ssh_pass::"$SSH_PASS >> /variables
+echo "wp_cli::"$WP_CLI >> /variables
+chmod 600 /variables

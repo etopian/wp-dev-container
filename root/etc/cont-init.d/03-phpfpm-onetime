@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+if [ ! -d /DATA/logs/php-fpm ] ; then
+  mkdir -p /DATA/logs/php-fpm
+  chown nginx:nginx /DATA/logs/php-fpm
+fi

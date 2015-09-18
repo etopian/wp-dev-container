@@ -1,0 +1,49 @@
+#!/usr/bin/php
+<?php
+//do not timeout.
+set_time_limit(0);
+chdir ( '/DATA/htdocs/' );
+print "Starting MySQL temporarily to install WP\n";
+shell_exec('mysqld_safe > /dev/null 2>/dev/null &');
+
+if(!file_exists('/DATA/htdocs/wp-config.php')){
+  echo 'Running wp cli install';
+
+  $vars_file = file('/variables');
+  $vars = [];
+  foreach($vars_file as $vf){
+    $v = explode('::', $vf);
+    $vars[$v[0]] = trim($v[1]);
+  }
+
+  $wp_cli_commands = json_decode($vars['wp_cli']);
+  print "Running WP CLI commands:\n";
+  print_r($wp_cli_commands);
+  print "\n";
+
+  foreach($wp_cli_commands as $cmd){
+
+    foreach ($vars AS $key => $value)
+    {
+      $cmd = str_replace($key, $value, $cmd);
+    }
+
+    print 'running:  '.$cmd."\n";
+
+    print shell_exec($cmd)."\n";
+  }
+
+  if(!empty($vars['ssh_pass'])){
+    $ssh_pass_cmd = 'echo -e "{PASS}\n{PASS}" | (passwd demouser)';
+    $ssh_pass_cmd = str_replace('{PASS}', $vars['ssh_pass'], $ssh_pass_cmd);
+    print shell_exec($ssh_pass_cmd);
+  }
+
+
+}
+
+shell_exec('mysqladmin -uroot shutdown');
+
+
+print("Stopping temporary instance of MySQL\n");
+print("Done WP-CLI install");

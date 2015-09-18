@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ ! -d /DATA/htdocs ] ; then
+  mkdir -p /DATA/htdocs
+  chown nginx:www-data /DATA/htdocs
+fi
+
+
+
+if [ ! -d /DATA/logs/nginx ] ; then
+  mkdir -p /DATA/logs/nginx
+  chown nginx:nginx /DATA/logs/nginx
+fi
+
+if [ ! -d /tmp/nginx ] ; then
+  mkdir -p /tmp/nginx
+  chown nginx:nginx /tmp/nginx
+fi
