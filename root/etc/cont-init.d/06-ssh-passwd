@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?php
+
+$vars_file = file('/variables');
+$vars = [];
+foreach($vars_file as $vf){
+  $v = explode('::', $vf);
+  $vars[$v[0]] = trim($v[1]);
+}
+
+if(!empty($vars['ssh_pass'])){
+  $ssh_pass_cmd = 'echo -e "{PASS}\n{PASS}" | (passwd demouser)';
+  $ssh_pass_cmd = str_replace('{PASS}', $vars['ssh_pass'], $ssh_pass_cmd);
+  print shell_exec($ssh_pass_cmd);
+}
