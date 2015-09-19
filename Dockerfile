@@ -32,15 +32,16 @@ RUN apk update \
 
 ENV TERM="xterm" \
     DB_HOST="127.0.0.1" \
-    WP_CLI='["wp core download","wp core config --dbhost=127.0.0.1 --dbname={DBNAME} --dbuser={DBUSER} --dbpass={DBPASS}","wp core install --url=http:\/\/test1.trework.com --title=WordPress --admin_user=myusername --admin_password=mypassword --admin_email=myemail@email.com","wp plugin install bbpress --activate","wp plugin install https:\/\/downloads.wordpress.org\/plugin\/black-studio-tinymce-widget.2.2.5.zip"]'\
-    SSH_USER="demouser"\
-    SSH_PASS="demouserL123"\
+    DB_NAME="luca" \
+    DB_USER="luca1" \
+    DB_PASS="13lkjp0p9u"\
+    WP_CLI='["wp core download","wp core config --dbname={DB_NAME} --dbuser={DB_USER} --dbpass={DB_PASS} --dbhost={DB_HOST}","wp core install --url=http:\/\/test1.trework.com --title=WordPress --admin_user=myusername --admin_password=mypassword --admin_email=myemail@email.com","wp plugin install bbpress --activate","wp plugin install https:\/\/downloads.wordpress.org\/plugin\/black-studio-tinymce-widget.2.2.5.zip"]'\
+    SSH_USER="luca9"\
+    SSH_PASS="demouserL3"\
     VIRTUAL_HOST=""
 
 
-RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/php.ini && \
-    sed -i 's/nginx:x:100:101:Linux User,,,:\/var\/www\/localhost\/htdocs:\/sbin\/nologin/demouser:x:100:101:Linux User,,,:\/DATA:\/bin\/bash/g' /etc/passwd && \
-    sed -i 's/nginx:x:100:101:Linux User,,,:\/var\/www\/localhost\/htdocs:\/sbin\/nologin/demouser:x:100:101:Linux User,,,:\/DATA:\/bin\/bash/g' /etc/passwd-
+RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/php.ini
 
 #RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa && ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa && ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -b 521
 ADD root /

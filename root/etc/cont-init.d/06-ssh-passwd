@@ -9,7 +9,7 @@ foreach($vars_file as $vf){
 }
 
 if(!empty($vars['ssh_pass'])){
-  $ssh_pass_cmd = 'echo -e "{PASS}\n{PASS}" | (passwd demouser)';
+  $ssh_pass_cmd = 'echo -e "{PASS}\n{PASS}" | (passwd '.$vars['ssh_user'].')';
   $ssh_pass_cmd = str_replace('{PASS}', $vars['ssh_pass'], $ssh_pass_cmd);
   print shell_exec($ssh_pass_cmd);
 }

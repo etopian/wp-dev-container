@@ -36,7 +36,7 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
   }
 
 
-  system("/bin/chown -R demouser:nginx /DATA/htdocs");
+  system("/bin/chown -R ".$vars['ssh_user'].":nginx /DATA/htdocs");
 
   shell_exec('mysqladmin -uroot shutdown');
 

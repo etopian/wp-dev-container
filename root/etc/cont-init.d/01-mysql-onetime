@@ -50,15 +50,12 @@ set_admin_account() {
 	mysql -uroot -e "FLUSH PRIVILEGES"
 
 
-	local WPDBNAME="wordpress"
-	local WPDBUSER="wordpress"
-	local WPDBPASS=${MYSQL_PASS:-$(pwgen -s 16 1)}
-
-	Q1="CREATE DATABASE IF NOT EXISTS $WPDBNAME;"
-	Q2="GRANT USAGE ON $WPDBNAME.* TO $WPDBUSER@'localhost' IDENTIFIED BY '$WPDBPASS';"
-	Q3="GRANT ALL PRIVILEGES ON $WPDBNAME.* TO $WPDBUSER@'localhost';"
+	Q1="CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+	Q2="GRANT USAGE ON $DB_NAME.* TO $DB_USER@'localhost' IDENTIFIED BY '$DB_PASS';"
+	Q3="GRANT ALL PRIVILEGES ON $DB_NAME.* TO $DB_USER@'localhost';"
 	Q4="FLUSH PRIVILEGES;"
 	SQL="${Q1}${Q2}${Q3}${Q4}"
+	echo $SQL
 	mysql -uroot -e "$SQL"
 
 	echo "=> Done!"
@@ -83,9 +80,10 @@ set_admin_account() {
 
 	echo "mysql_pass::"$PASS >> /variables
 	echo "mysql_user::admin" >> /variables
-	echo "{DBNAME}::"$WPDBNAME >> /variables
-	echo "{DBPASS}::"$WPDBPASS >> /variables
-	echo "{DBUSER}::"$WPDBUSER >> /variables
+	echo "{DB_NAME}::"$DB_NAME >> /variables
+	echo "{DB_PASS}::"$DB_PASS >> /variables
+	echo "{DB_USER}::"$DB_USER >> /variables
+	echo "{DB_HOST}::"$DB_HOST >> /variables
 	manual_stop
 
 }
