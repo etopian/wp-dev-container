@@ -49,6 +49,7 @@ set_admin_account() {
 	mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION"
 	mysql -uroot -e "FLUSH PRIVILEGES"
 
+	echo $(mysql -uroot -e "SELECT databases;");
 
 	Q1="CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 	Q2="GRANT USAGE ON $DB_NAME.* TO $DB_USER@'localhost' IDENTIFIED BY '$DB_PASS';"

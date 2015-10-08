@@ -32,7 +32,12 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
 
     print 'Running:  '.$cmd."\n";
 
-    print shell_exec($cmd)."\n";
+    $output = shell_exec($cmd)."\n";
+    if($output == NULL){
+      print "\033[31m ERROR in executing above command \n";
+    }else{
+      print $output;
+    }
   }
 
 
@@ -42,6 +47,9 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
 
   print("Stopping temporary instance of MySQL\n");
 
+}else{
+  echo '/DATA/htdocs/wp-config.php exists, skipping WP-CLI.';
+  print file_get_contents('/DATA/htdocs/wp-config.php');
 }
 
 
