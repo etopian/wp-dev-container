@@ -3,9 +3,9 @@
 
 create_volume() {
 	local result=0
-	MYSQL_HOME="/var/lib/mysql"
+	MYSQL_HOME="/var/lib/mysql/mysql"
 
-	if [[ ! -d "$MYSQL_HOME" ]]; then
+	if [[ ! -e "$MYSQL_HOME" ]]; then
 		echo "=> No MySQL volume detected in $MYSQL_HOME"
 		echo "=> Creating initial data..."
 		mysql_install_db --user=mysql --rpm > /dev/null 2>&1
@@ -92,9 +92,9 @@ set_admin_account() {
 
 
 init() {
-	DIR=/var/lib/mysql
+	DIR=/var/lib/mysql/mysql
 
-	if [[ ! -d "$DIR" ]]; then
+	if [[ ! -e "$DIR" ]]; then
 
 		create_volume
 
