@@ -55,4 +55,5 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 EXPOSE 80
 VOLUME ["/DATA"]
+VOLUME ["/var/lib/mysql"]
 ENTRYPOINT ["/init"]
