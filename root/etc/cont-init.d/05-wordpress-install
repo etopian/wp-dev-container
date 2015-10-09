@@ -48,7 +48,7 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
   print("Stopping temporary instance of MySQL\n");
 
 }else{
-  echo '/DATA/htdocs/wp-config.php exists, skipping WP-CLI.';
+  echo "\033[31m /DATA/htdocs/wp-config.php exists, skipping WP-CLI.";
   print file_get_contents('/DATA/htdocs/wp-config.php');
 }
 
