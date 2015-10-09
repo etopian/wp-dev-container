@@ -49,7 +49,7 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
 
 }else{
   echo "\033[31m /DATA/htdocs/wp-config.php exists, skipping WP-CLI.";
-  print file_get_contents('/DATA/htdocs/wp-config.php');
+  //print file_get_contents('/DATA/htdocs/wp-config.php');
 }
 
 
