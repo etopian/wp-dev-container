@@ -1,14 +1,16 @@
 #!/usr/bin/php
+
 <?php
+
 //do not timeout.
 set_time_limit(0);
 chdir ( '/DATA/htdocs/' );
-
+echo "Starting WordPress Install\n";
 
 if(!file_exists('/DATA/htdocs/wp-config.php')){
   print "Starting MySQL temporarily to install WP\n";
-  shell_exec('mysqld_safe > /dev/null 2>/dev/null &');
-
+  //shell_exec('mysqld_safe > /dev/null 2>/dev/null &');
+  exec ('bash -c "exec nohup mysqld_safe > /dev/null 2>&1 &"');
   echo 'Running WP CLI install';
 
   $vars_file = file('/variables');
@@ -54,3 +56,4 @@ if(!file_exists('/DATA/htdocs/wp-config.php')){
 
 
 print("Done WP-CLI install");
+

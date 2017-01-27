@@ -24,7 +24,7 @@ manual_boot() {
 	while [ $result -ne 0 ]; do
 		echo "=> Waiting for MySQL to become available"
 		sleep 5
-		mysql -uroot -e "status" > /dev/null 2>&1
+		mysqladmin ping| grep 'mysqld is alive' > /dev/null 2>&1
 		result=$?
 	done
 }
