@@ -9,7 +9,7 @@ LABEL   devoply.type="site" \
         devoply.recommend="redis" \
         devoply.description="WordPress on Nginx and PHP-FPM with WP-CLI." \
         devoply.name="WordPress" \
-        devoply.params="docker run -d --name {container_name} -e VIRTUAL_HOST={virtual_hosts} -v /data/sites/{domain_name}:/DATA etopian/alpine-php5-wordpress"
+        devoply.params="docker run -d --name {container_name} -e VIRTUAL_HOST={virtual_hosts} -v /data/sites/{domain_name}:/DATA etopian/alpine-php7-wordpress"
 
 
 # Add s6-overlay
@@ -21,14 +21,16 @@ RUN tar xvfz /tmp/s6-overlay.tar.gz -C /
 
 
 RUN apk update \
-    && apk add bash less vim nginx ca-certificates \
-    php5-fpm php5-json php5-zlib php5-xml php5-pdo php5-phar php5-openssl \
-    php5-pdo_mysql php5-mysqli \
-    php5-gd php5-iconv php5-mcrypt \
-    php5-mysql php5-curl php5-opcache php5-ctype php5-apcu \
-    php5-intl php5-bcmath php5-dom php5-xmlreader mysql-client && \
-    apk add -u musl mysql-client pwgen mysql openssh php5-cli curl && \
+    && apk add --no-cache bash less vim nginx ca-certificates \
+    php7-fpm php7-json php7-zlib php7-xml php7-pdo php7-phar php7-openssl \
+    php7-pdo_mysql php7-mysqli php7-session \
+    php7-gd php7-iconv php7-mcrypt \
+    php7-curl php7-opcache php7-ctype php7-apcu \
+    php7-intl php7-bcmath php7-dom php7-xmlreader mysql-client openssh-client git curl rsync pwgen mysql openssh && apk add -u --no-cache musl && apk --update --no-cache add tar \
     rm -rf /var/cache/apk/*
+
+
+
 
 ENV TERM="xterm" \
     DB_HOST="127.0.0.1" \
@@ -41,13 +43,18 @@ ENV TERM="xterm" \
     VIRTUAL_HOST=""
 
 
-RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php5/php.ini
+
+RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php7/php.ini && \
+    ln -s /usr/bin/php7 /usr/bin/php && \
+    ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm
+
+
 
 #RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa && ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa && ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -b 521
 ADD root /
 
 ADD files/nginx.conf /etc/nginx/
-ADD files/php-fpm.conf /etc/php5/
+ADD files/php-fpm.conf /etc/php7/
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp
 
